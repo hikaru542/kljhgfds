@@ -1,0 +1,367 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA - Guía de Museo</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#000;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    font-family:Arial,sans-serif;
+}
+
+/* =======================
+   OJOS DE AURA
+   ======================= */
+
+#face{
+    display:flex;
+    gap:80px;
+    align-items:center;
+    pointer-events:none;
+}
+
+.eye-group{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.eyebrow{
+    width:90px;
+    height:10px;
+    margin-bottom:25px;
+    border-radius:20px;
+    background:#67e8ff;
+
+    box-shadow:
+        0 0 10px #67e8ff,
+        0 0 20px #67e8ff,
+        0 0 40px #67e8ff;
+}
+
+.eye{
+    width:130px;
+    height:150px;
+    border-radius:28px;
+    background:#8ef8ff;
+    position:relative;
+    overflow:hidden;
+
+    box-shadow:
+        0 0 20px #67e8ff,
+        0 0 40px #67e8ff,
+        0 0 80px #67e8ff;
+
+    animation:blink 5s infinite;
+}
+
+.eye::before{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(0,0,0,.08) 0px,
+            rgba(0,0,0,.08) 1px,
+            transparent 1px,
+            transparent 16px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,0,0,.08) 0px,
+            rgba(0,0,0,.08) 1px,
+            transparent 1px,
+            transparent 16px
+        );
+}
+
+.pupil{
+    width:42px;
+    height:78px;
+    background:#081520;
+    border-radius:18px;
+    position:absolute;
+    left:44px;
+    top:32px;
+
+    animation:lookAround 8s infinite;
+}
+
+.sparkle{
+    position:absolute;
+    width:18px;
+    height:18px;
+    background:white;
+    top:18px;
+    right:18px;
+    border-radius:4px;
+
+    box-shadow:
+        0 0 10px white,
+        0 0 20px white;
+}
+
+.cheek{
+    width:16px;
+    height:16px;
+    background:#ffb6ff;
+    position:absolute;
+    bottom:15px;
+    border-radius:4px;
+
+    box-shadow:
+        0 0 8px #ffb6ff,
+        0 0 16px #ffb6ff;
+}
+
+.left-cheek{
+    left:-8px;
+}
+
+.right-cheek{
+    right:-8px;
+}
+
+/* =======================
+   BOCA DE AURA
+   ======================= */
+
+#mouth-container{
+    position:fixed;
+    left:50%;
+    top:64%;
+    transform:translateX(-50%);
+    pointer-events:none;
+}
+
+#mouth{
+    width:90px;
+    height:18px;
+
+    background:#8ef8ff;
+
+    border-radius:12px;
+
+    position:relative;
+    overflow:hidden;
+
+    box-shadow:
+        0 0 10px #67e8ff,
+        0 0 20px #67e8ff,
+        0 0 40px #67e8ff;
+
+    transition:all .08s linear;
+}
+
+#mouth::before{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(0,0,0,.08) 0px,
+            rgba(0,0,0,.08) 1px,
+            transparent 1px,
+            transparent 8px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,0,0,.08) 0px,
+            rgba(0,0,0,.08) 1px,
+            transparent 1px,
+            transparent 8px
+        );
+}
+
+#mouth.talking{
+    animation:talk .18s infinite alternate;
+}
+
+/* =======================
+   ANIMACIONES
+   ======================= */
+
+@keyframes blink{
+
+    0%,93%,100%{
+        transform:scaleY(1);
+    }
+
+    95%{
+        transform:scaleY(0.05);
+    }
+}
+
+@keyframes lookAround{
+
+    0%{
+        transform:translateX(0);
+    }
+
+    25%{
+        transform:translateX(-10px);
+    }
+
+    50%{
+        transform:translateX(10px);
+    }
+
+    75%{
+        transform:translateX(-5px);
+    }
+
+    100%{
+        transform:translateX(0);
+    }
+}
+
+@keyframes talk{
+
+    0%{
+        width:90px;
+        height:18px;
+        border-radius:12px;
+    }
+
+    50%{
+        width:84px;
+        height:32px;
+        border-radius:16px;
+    }
+
+    100%{
+        width:90px;
+        height:44px;
+        border-radius:20px;
+    }
+}
+
+/* =======================
+   WIDGET ESCONDIDO
+   ======================= */
+
+.widget-box{
+    position:fixed;
+    bottom:10px;
+    right:10px;
+    z-index:99999;
+
+    opacity:0.08;
+    transition:opacity .3s ease;
+}
+
+.widget-box:hover{
+    opacity:1;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="face">
+
+    <div class="eye-group">
+
+        <div class="eyebrow"></div>
+
+        <div class="eye">
+            <div class="pupil"></div>
+            <div class="sparkle"></div>
+            <div class="cheek left-cheek"></div>
+        </div>
+
+    </div>
+
+    <div class="eye-group">
+
+        <div class="eyebrow"></div>
+
+        <div class="eye">
+            <div class="pupil"></div>
+            <div class="sparkle"></div>
+            <div class="cheek right-cheek"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<div id="mouth-container">
+    <div id="mouth"></div>
+</div>
+
+<div class="widget-box">
+
+    <elevenlabs-convai
+        id="aura-agent"
+        agent-id="agent_4801kta67q5rfms9cwmr8mhp40jt">
+    </elevenlabs-convai>
+
+</div>
+
+<script
+src="https://unpkg.com/@elevenlabs/convai-widget-embed"
+type="text/javascript">
+</script>
+
+<script>
+
+window.addEventListener("DOMContentLoaded", () => {
+
+    const mouth = document.getElementById("mouth");
+    const agent = document.getElementById("aura-agent");
+
+    if (!mouth || !agent) return;
+
+    const startTalking = () => {
+        mouth.classList.add("talking");
+    };
+
+    const stopTalking = () => {
+        mouth.classList.remove("talking");
+    };
+
+    [
+        "conversationStarted",
+        "agentSpeaking",
+        "audioStarted",
+        "responseStarted"
+    ].forEach(eventName => {
+        agent.addEventListener(eventName, startTalking);
+    });
+
+    [
+        "conversationEnded",
+        "agentStoppedSpeaking",
+        "audioEnded",
+        "responseEnded"
+    ].forEach(eventName => {
+        agent.addEventListener(eventName, stopTalking);
+    });
+
+});
+
+</script>
+
+</body>
+</html>
